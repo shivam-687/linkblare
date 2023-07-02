@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --color-antd-bgBase: rgba(0, 0, 0, 1),
+        --color-antd-bgContainer: rgba(0, 0, 0, 1),
+        --color-antd-bgContainer-disabled: rgba(0, 0, 0, 1),
+        --color-antd-bgElevated: rgba(0, 0, 0, 1),
+        --color-antd-bgLayout: rgba(0, 0, 0, 1),
+        --color-antd-bgTextActive: rgba(0, 0, 0, 1),
+        --color-antd-bgTextHover: rgba(0, 0, 0, 1),
+        --color-antd-border: rgba(0, 0, 0, 1),
+        --color-antd-borderBg: rgba(0, 0, 0, 1),
+        --color-antd-borderSecondary: rgba(0, 0, 0, 1),
+        --color-antd-fill: rgba(0, 0, 0, 1),
+        --color-antd-fillContent: rgba(0, 0, 0, 1),
+        --color-antd-fillContentHover: rgba(0, 0, 0, 1),
+        --color-antd-fillSecondary: rgba(0, 0, 0, 1),
+        --color-antd-fillAlter: rgba(0, 0, 0, 1),
+        --color-antd-highlight: rgba(0, 0, 0, 1),
+        --color-antd-icon: rgba(0, 0, 0, 1),
+        --color-antd-iconHover: rgba(0, 0, 0, 1),
+        --color-antd-linkActive: rgba(0, 0, 0, 1),
+        --color-antd-link: rgba(0, 0, 0, 1),
+        --color-antd-linkHover: rgba(0, 0, 0, 1),
+        --color-antd-primary: rgba(0, 0, 0, 1),
+        --color-antd-primaryActive: rgba(0, 0, 0, 1),
+        --color-antd-primaryBg: rgba(0, 0, 0, 1),
+        --color-antd-primaryBgHover: rgba(0, 0, 0, 1),
+        --color-antd-primaryBorderHover: rgba(0, 0, 0, 1),
+        --color-antd-primaryHover: rgba(0, 0, 0, 1),
+        --color-antd-primaryText: rgba(0, 0, 0, 1),
+        --color-antd-primaryTextActive: rgba(0, 0, 0, 1),
+        --color-antd-primaryTextHover: rgba(0, 0, 0, 1)
+}

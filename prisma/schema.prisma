@@ -3,11 +3,10 @@
 
 generator client {
     provider = "prisma-client-js"
-    previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
     // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -49,13 +48,23 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String       @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?      @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
+    collection    Collection[]
+    Save          Save[]
+    role          Roles        @default(USER)
+    ineterest     Tag[]
+}
+
+enum Roles {
+    USER
+    ADMIN
+    PREMIUM_USER
 }
 
 model VerificationToken {
@@ -64,4 +73,62 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Tag {
+    id          Int          @id @default(autoincrement())
+    name        String
+    slug        String       @unique
+    links       Link[]
+    collections Collection[]
+    users       User[]
+}
+
+model Link {
+    id           Int        @id @default(autoincrement())
+    siteName     String?
+    title        String
+    url          String
+    desc         String?    @db.Text
+    favicon      String?
+    image        String?
+    type         LinkType   @default(PAGE)
+    tags         Tag[]
+    visits       BigInt     @default(0)
+    collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt()
+    collectionId Int
+
+    @@index([title, url])
+}
+
+enum LinkType {
+    PAGE
+    ARTICLE
+    VIDEO
+}
+
+model Collection {
+    id        Int      @id @default(autoincrement())
+    title     String
+    desc      String   @db.Text
+    image     String?
+    tags      Tag[]
+    links     Link[]
+    createdBy User?    @relation(fields: [userId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    userId    String?
+    saves     Save[]
+
+    @@index([title])
+}
+
+model Save {
+    id           Int        @id @default(autoincrement())
+    user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+    collectionId Int
+    userId       String
 }
