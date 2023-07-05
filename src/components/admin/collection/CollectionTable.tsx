@@ -64,7 +64,7 @@ const CollectionTable = ({
             render: (value, root) => {
                 return <div className='flex gap-1'>
                     {
-                        root.tags.map(tag => {
+                        root?.tags?.map(tag => {
                             return <Tag key={nanoid()}>{tag.name}</Tag>
                         })
                     }
