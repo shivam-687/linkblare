@@ -6,11 +6,11 @@ import SettingSidebarNav  from "./SettingsSidebarNav"
 const sidebarNavItems = [
   {
     lable: "Account",
-    href: "/admin/setting",
+    href: "/setting",
   },
   {
     lable: "Preference",
-    href: "/admin/setting/prefrence",
+    href: "/setting/prefrence",
   },
 //   {
 //     title: "Appearance",

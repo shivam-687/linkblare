@@ -21,12 +21,14 @@ export const UserTag = ({
     const [notify] = notification.useNotification();
     const { data: Session } = useSession();
     const tagCtx = api.useContext().tag;
+    
 
     const toggle = async () => {
         try {
             const toggleAction = await tagAction.mutateAsync({ tagId: tag.id, action: 'TOGGLE' });
             toggleAction && onAction?.(toggleAction);
             void tagCtx.listAll.invalidate()
+           
         } catch (error: any) {
             notify.error({ message: error.message })
         }
@@ -59,6 +61,7 @@ const TagSelector = () => {
     const { data, isLoading } = api.tag.listAll.useInfiniteQuery({ take: 50, search }, {
         getNextPageParam: (lastPage) => lastPage?.nextCursor,
     })
+
 
     const handleChange = (value: string) =>{
         setSearch(value);

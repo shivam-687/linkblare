@@ -59,6 +59,7 @@ export const TagRouter = createTRPCRouter({
             const user = ctx.session?.user;
             const res = await ctx.prisma.tag.findMany({
                 where: {
+                    
                     users: {
                         every: {
                             id: user.id

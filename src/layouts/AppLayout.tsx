@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react';
 import {
-    CompassOutlined, FileFilled, MenuOutlined, SearchOutlined,
+    CompassOutlined, FileFilled, GithubFilled, MenuOutlined, SearchOutlined,
 } from '@ant-design/icons';
 import { Button, Divider, MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
@@ -47,7 +47,12 @@ const App = ({ children }: PropsWithChildren) => {
                 <Content className='p-6 overflow-auto' >
                     {children}
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Interlef Web Solutions</Footer>
+                <Footer style={{ textAlign: 'center' }}>
+                    <div className="flex items-center justify-center ">
+                       <a href="https://github.com/shivam-687/linkblare"> <Button type='ghost' icon={<GithubFilled/>}>LinkBlare Shivam Singh</Button></a>
+                        {/* <span>Shivam Singh</span> */}
+                    </div>
+                </Footer>
             </Layout>
         </Layout>
     );

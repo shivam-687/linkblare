@@ -6,6 +6,7 @@ import FullscreenLoader from '../components/FullscreenLoader';
 import { Layout, Menu, theme } from 'antd';
 import Logo from '~/components/Logo';
 import { FolderOpenOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 const { Header, Content, Footer, Sider } = Layout;
 
 
@@ -37,8 +38,10 @@ const AdminLayout = ({ children }: PropsWithChildren) => {
     return (
         <Layout style={{ minHeight: '100vh', color: colorTextBase}} >
             <Sider className='' collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} style={{backgroundColor: colorBgContainer}}>
-                <div className='flex w-full items-center justify-center py-2 mb-5'><Logo/></div>
-                <Menu  defaultSelectedKeys={['/collection']} mode="inline" items={[
+                <div className='flex w-full items-center justify-center py-2 mb-5'>
+                    <Link href="/"><Logo/></Link>
+                </div>
+                <Menu style={{backgroundColor: colorBgContainer}}  defaultSelectedKeys={['/collection']} mode="inline" items={[
                     {
                         label: 'Collection',
                         key: '/collection',

@@ -27,7 +27,7 @@ const SidebarAuthMenu = () => {
             key: '1',
         },
         {
-            label: <Link href={'/account'}><SettingOutlined/> <span>Account/settings</span></Link>,
+            label: <Link href={'/setting'}><SettingOutlined/> <span>Account/settings</span></Link>,
             key: '2',
         },
         {

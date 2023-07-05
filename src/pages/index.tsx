@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { GetServerSidePropsContext, type NextPage } from "next";
+import { type GetServerSidePropsContext, type NextPage } from "next";
 import Head from "next/head";
-import { useCollectionData } from "~/lib/hooks/useCollectionData";
 import CollectionGrid from "~/components/collection/CollectionGrid";
 import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import { createInnerTRPCContext } from "~/server/api/trpc";
@@ -12,9 +11,11 @@ import { appRouter } from "~/server/api/root";
 import SuperJSON from "superjson";
 import { api } from "~/utils/api";
 import { useState } from "react";
-import { CollectionOutput, CollectionSortType } from "~/schema/Collection.schema";
-import { Segmented } from "antd";
-import { SegmentedValue } from "antd/es/segmented";
+import { type CollectionOutput, type CollectionSortType } from "~/schema/Collection.schema";
+import { Button, Segmented } from "antd";
+import { type SegmentedValue } from "antd/es/segmented";
+
+
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext
@@ -34,24 +35,29 @@ export async function getServerSideProps(
 
 const Home: NextPage = () => {
   const [sortData, setSortData] = useState<CollectionSortType | undefined>()
-  const { data, isLoading } = api.collection.collectionFeed.useInfiniteQuery({ take: 30, sort: sortData as any }, {
+  const [selectedTags] = useState<number[]>([])
+  const { data, isLoading, hasNextPage, fetchNextPage } = api.collection.collectionFeed.useInfiniteQuery({ take: 30, sort: sortData as any, tags: selectedTags }, {
     getNextPageParam: (lastPage) => lastPage?.nextCursor,
   });
 
   const handleSegmentChange = (value: SegmentedValue) => {
+
     switch (value) {
+
       case 'Latest':
-        setSortData({createdAt: 'desc'})
+        setSortData({ createdAt: 'desc' })
         break;
+
       case 'Oldest':
-        setSortData({createdAt: 'asc'})
+        setSortData({ createdAt: 'asc' })
         break;
-    
+
       default:
-        setSortData({saves: {_count: 'desc'}})
+        setSortData({ saves: { _count: 'desc' } })
         break;
+
     }
-    
+
   }
 
   return (
@@ -65,9 +71,19 @@ const Home: NextPage = () => {
       <main className="">
         <div className="flex justify-between items-center py-2 mb-5">
           <Segmented onChange={handleSegmentChange} options={['Latest', 'Oldest', 'Most Saved']} />
+          {/* <TagSelectorDialog /> */}
+          {/* <TagSlider onSelect={setSlectedTags}/> */}
+
         </div>
         <CollectionGrid loading={isLoading} collections={data?.pages.map(d => d.items).flat() as CollectionOutput[] || []} />
+
+        {
+          hasNextPage && <><div className="flex justify-center my-5"><Button disabled={!hasNextPage || isLoading} loading={isLoading} onClick={() => void fetchNextPage()}>Load More</Button></div></>
+        }
+
       </main>
+
+
     </>
   );
 };

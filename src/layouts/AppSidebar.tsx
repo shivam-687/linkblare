@@ -43,7 +43,7 @@ const AppSidebar = () => {
     const SidebarContent = () => {
         return (
             <>
-                <Menu theme="dark" selectedKeys={[String(router.pathname)]} defaultSelectedKeys={['/']} mode="inline" items={items} />
+                <Menu style={{backgroundColor: colorBgContainer}} selectedKeys={[String(router.pathname)]} defaultSelectedKeys={['/']} mode="inline" items={items} />
                 <Divider>Saved Collections</Divider>
                 <div className='h-full w-full overflow-auto pb-36'>
                     <SidebarSavedCollectionList />
@@ -57,8 +57,12 @@ const AppSidebar = () => {
     return (
         <>
             <Layout.Sider style={{ backgroundColor: colorBgContainer }} className='relative pb-20 overflow-hidden hidden md:block'>
-                <div className='flex w-full items-center justify-center py-2 '><Logo /></div>
+                <div className='flex w-full items-center justify-center py-2 '>
+                    <Link href={'/'}><Logo /></Link>
+                </div>
+                <div className="mt-5">
                 <SidebarContent/>
+                </div>
             </Layout.Sider>
 
             <Drawer open={isSidebarOpen} onClose={() => setIsSidebarOpen(false)}>

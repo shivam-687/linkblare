@@ -9,9 +9,9 @@ const ThemeProvider = ({children}: PropsWithChildren) => {
     theme={{
       token: {
         colorPrimary: '#00b96b',
-        colorBgBase: '#fff',
-        colorTextBase: '#000005',
-        colorBgContainer: '#fefefe',
+        colorBgBase: '#000',
+        colorTextBase: '#fff',
+        colorBgContainer: '#1f1f1f',
       },
       algorithm: theme.darkAlgorithm
     }}

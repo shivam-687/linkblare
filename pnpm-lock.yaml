@@ -64,6 +64,9 @@ dependencies:
   next-auth:
     specifier: ^4.21.0
     version: 4.21.0(next@13.4.1)(nodemailer@6.9.2)(react-dom@18.2.0)(react@18.2.0)
+  next-cloudinary:
+    specifier: ^4.13.0
+    version: 4.13.0(next@13.4.1)(react@18.2.0)
   nodemailer:
     specifier: ^6.9.2
     version: 6.9.2
@@ -132,6 +135,9 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18.0.11
     version: 18.0.11
+  '@types/react-stonecutter':
+    specifier: ^0.3.1
+    version: 0.3.1
   '@typescript-eslint/eslint-plugin':
     specifier: ^5.56.0
     version: 5.56.0(@typescript-eslint/parser@5.56.0)(eslint@8.36.0)(typescript@5.0.2)
@@ -235,6 +241,29 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
+
+  /@cloudinary-util/url-loader@3.8.1:
+    resolution: {integrity: sha512-cBAPiAulWIG5M6HkFDvHhWVo0BJfWnZrr3jz7mIvdVrhKJl3CgK6p9kzSWKC62Ib9SUHMzKBC9R2B8jn+ZCBKA==}
+    dependencies:
+      '@cloudinary-util/util': 2.0.1
+      '@cloudinary/url-gen': 1.10.1
+    dev: false
+
+  /@cloudinary-util/util@2.0.1:
+    resolution: {integrity: sha512-d2imgUjYTLjv8ZhZPMAts/uPbMvIE71X4I/5hwdY/7vM4BuFQoJMSyq+h2pW1z1MyGG9BOWBm70vp082lSrbEQ==}
+    dev: false
+
+  /@cloudinary/transformation-builder-sdk@1.2.9:
+    resolution: {integrity: sha512-qbLAfKhX4hy5tFPv4erpxdBT9x0GZgzDuMeDBIygqutNJTeB7lNuEZedf8X++0ZinkDccrJwXzDJty60MEfyHw==}
+    dependencies:
+      '@cloudinary/url-gen': 1.10.1
+    dev: false
+
+  /@cloudinary/url-gen@1.10.1:
+    resolution: {integrity: sha512-6pBmapnL7G231NbNWhKbi+08HcpNASci7M3OmZWaUCQWUfdmo3au27HT3Zqg9NMsisfyer3t7o0RXzPQ4XlmMg==}
+    dependencies:
+      '@cloudinary/transformation-builder-sdk': 1.2.9
+    dev: false
 
   /@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -749,6 +778,12 @@ packages:
 
   /@types/react-dom@18.0.11:
     resolution: {integrity: sha512-O38bPbI2CWtgw/OoQoY+BRelw7uysmXbWvw3nLWO21H1HSh+GOlqPuXshJfjmpNlKiiSDG9cc1JZAaMmVdcTlw==}
+    dependencies:
+      '@types/react': 18.0.28
+    dev: true
+
+  /@types/react-stonecutter@0.3.1:
+    resolution: {integrity: sha512-MV5pZ1EAvbATl8Yx3B42vjah9+vbb4kGuvDkZ42REWh5Mg33X0mk0W3E5pGz+LRfZGTycF0a1tLO93rjRgKh1w==}
     dependencies:
       '@types/react': 18.0.28
     dev: true
@@ -2844,6 +2879,19 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       uuid: 8.3.2
+    dev: false
+
+  /next-cloudinary@4.13.0(next@13.4.1)(react@18.2.0):
+    resolution: {integrity: sha512-tjlsJdJLpN+D/714mH1Vqnca3t1dJeNxAqf1gw+aAcA7zAVax4XMeBznBO01UqQH2nDvfb2PWmTttOwEYhu5vQ==}
+    peerDependencies:
+      next: ^12 || ^13
+      react: ^17 || ^18
+    dependencies:
+      '@cloudinary-util/url-loader': 3.8.1
+      '@cloudinary-util/util': 2.0.1
+      '@cloudinary/url-gen': 1.10.1
+      next: 13.4.1(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
     dev: false
 
   /next@13.4.1(react-dom@18.2.0)(react@18.2.0):

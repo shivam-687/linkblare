@@ -53,7 +53,7 @@ export const CollectionRouter = createTRPCRouter({
 
     update: adminProcedure.input(UpdateCollectionSchema).mutation(async ({ ctx, input }) => {
 
-        const { id, title, desc, tags: tagNames } = input;
+        const { id, title, desc, tags: tagNames, image } = input;
 
         // Get Existing collection of given id
         const existingCollection = await ctx.prisma.collection.findUnique({
@@ -92,6 +92,7 @@ export const CollectionRouter = createTRPCRouter({
                 tags: {
                     connect: tags.map(tag => ({ id: tag.id })),
                 },
+                image
             },
             include: CollectionInclude
         });
@@ -163,12 +164,12 @@ export const CollectionRouter = createTRPCRouter({
         return res;
     }),
     collectionFeed: publicProcedure.input(UserCollectionFeedSchema).query(async ({ ctx, input }) => {
-        const { search, cursor, take, sort } = input;
+        const { search, cursor, take, sort, tags:prefferedTags } = input;
         const userId = ctx.session?.user.id;
         const currenctTake = input.take && input.take + 1 || ServerConfig.itemLimit + 1
         const currentCursor = input.cursor;
         let nextCursor: number | undefined = undefined;
-        let tags: Tag[] | undefined = undefined
+        let tagIds: number[] | undefined = undefined
 
         if (userId) {
             const userData = await ctx.prisma.user.findUnique({
@@ -178,19 +179,22 @@ export const CollectionRouter = createTRPCRouter({
                 }
             });
             if (userData) {
-                tags = userData.ineterest;
+                tagIds = prefferedTags && prefferedTags.length > 0 ? prefferedTags : userData.ineterest.map(t => t.id);
             }
         }
+
+        console.log({tagIds});
+        
 
 
 
         const res = await ctx.prisma.collection.findMany({
             where: {
-                title: search && {
-                    contains: search,
-                    mode: 'insensitive'
-                },
-                tags: tags && { some: { id: { in: tags.map(t => t.id) } } }
+                // title: search && {
+                //     contains: search,
+                //     mode: 'insensitive'
+                // },
+                tags: tagIds && { some: { id: { in: tagIds } } }
             },
             take: currenctTake,
             cursor: currentCursor ? { id: currentCursor } : undefined,

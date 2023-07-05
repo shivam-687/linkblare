@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 import { Button, Form, Input, InputNumber, message } from 'antd'
 import { type CreateCollectionInput, type CollectionOutput, type UpdateCollectionInput } from '~/schema/Collection.schema'
 import TagInput from '~/components/ui/TagInput'
 import { api } from '~/utils/api'
+import FileUpload from '~/components/FileUpload'
+import Image from 'next/image'
+import { FileImageOutlined } from '@ant-design/icons'
 
 
 export type MutateCollectionFormProps = {
@@ -31,6 +35,8 @@ const MutateCollectionForm = forwardRef<HandleMutateCollectionForm, MutateCollec
 
   const [form] = Form.useForm<CreateCollectionInput | UpdateCollectionInput>();
   const [tags, setTags] = useState<string[]>();
+  const [thumbnail, setThumbnail] = useState<string>()
+
   // MUTATIONS
   const updateMutation = api.collection.update.useMutation();
   const createMutation = api.collection.create.useMutation();
@@ -40,24 +46,30 @@ const MutateCollectionForm = forwardRef<HandleMutateCollectionForm, MutateCollec
     try {
       let res: CollectionOutput | null = null;
       const validatedData = await form.validateFields();
-      // console.log({ ...{ ...validatedData, tags }})
       if (data) {
-        res = await updateMutation.mutateAsync({ ...{ ...validatedData, tags } as UpdateCollectionInput })
+        res = await updateMutation.mutateAsync({ ...{ ...validatedData, tags } as UpdateCollectionInput }) as CollectionOutput
+        void message.success("Collection updated successfully!")
       } else {
-        res = await createMutation.mutateAsync({ ...{ ...validatedData, tags } as CreateCollectionInput })
+        res = await createMutation.mutateAsync({ ...{ ...validatedData, tags } as CreateCollectionInput }) as CollectionOutput
+        void message.success("Collection created successfully!")
       }
       res && onMutate?.(res);
-      void message.success("Collection created successfully!")
+
     } catch (error) {
       onError?.(error);
       void message.error("Collection creation failed!")
     }
   }
 
+  const handleUpload = (url: string) => {
+    form.setFieldValue('image', url);
+    setThumbnail(url)
+  }
+
   const fillDataToForm = (data: CollectionOutput) => {
     const { tags, id, image, title, desc } = data;
 
-    setTags(tags.map(tag => tag.name));
+    setTags(tags?.map(tag => tag.name));
     form.setFieldsValue({
       id,
       image: (image === null ? undefined : image),
@@ -77,7 +89,7 @@ const MutateCollectionForm = forwardRef<HandleMutateCollectionForm, MutateCollec
 
   useEffect(() => {
     if (data) {
-      fillDataToForm(data)
+      fillDataToForm({...data, image: thumbnail || data.image})
     }
   }, [data])
 
@@ -90,6 +102,19 @@ const MutateCollectionForm = forwardRef<HandleMutateCollectionForm, MutateCollec
 
   return (
     <div>
+      <div className='flex items-center justify-center gap-5 mb-5'>
+        <div className={`aspect-square rounded-lg relative grid place-content-center w-full max-w-xs overflow-hidden ${form.getFieldValue('image') ?? 'border  border-dotted border-gray-500 border-spacing-5'}`}>
+          {
+            form.getFieldValue('image') ?
+              <Image src={form.getFieldValue('image') as string || ''} fill className='object-cover' alt="" /> :
+              <FileImageOutlined className='text-xl' />
+          }
+        </div>
+
+        <div>
+          <FileUpload onUpload={({ url }) => handleUpload(url)} />
+        </div>
+      </div>
       <Form
         form={form}
         layout='vertical'
@@ -97,11 +122,14 @@ const MutateCollectionForm = forwardRef<HandleMutateCollectionForm, MutateCollec
 
         {
           data && <Form.Item name='id' hidden>
-          <InputNumber />
-        </Form.Item>
+            <InputNumber />
+          </Form.Item>
         }
         <Form.Item name='title'>
           <Input placeholder='Collection Title' />
+        </Form.Item>
+        <Form.Item name='image'>
+          <Input placeholder='Collection Image' />
         </Form.Item>
         <Form.Item name="desc">
           <Input.TextArea placeholder='Collection Description' />

@@ -1,7 +1,9 @@
-import { GithubOutlined, LinkedinOutlined, PhoneOutlined, WhatsAppOutlined } from '@ant-design/icons';
+import { GithubOutlined, LineOutlined, LinkedinOutlined, PhoneOutlined, TwitterOutlined, WhatsAppOutlined } from '@ant-design/icons';
+import { nanoid } from 'nanoid';
 import React from 'react'
 import Resume from '~/components/resume/Resume';
-const resumeData = {
+const resumeDataArray = [
+  {
     name: "John Doe",
     image: "/assets/image/resume-img.jpg",
     social: [
@@ -19,7 +21,7 @@ const resumeData = {
     phone: [
       {
         number: "+1 123-456-7890",
-        icon: <WhatsAppOutlined />,
+        icon: <PhoneOutlined />,
       },
       {
         number: "+44 987-654-3210",
@@ -60,13 +62,75 @@ const resumeData = {
         title: "CSS",
       },
     ],
-  };
+  },
+  {
+    name: "Jane Smith",
+    image: "/assets/image/resume-img.jpg",
+    social: [
+      {
+        href: "https://linkedin.com/janesmith",
+        label: "LinkedIn",
+        icon: <LineOutlined />,
+      },
+      {
+        href: "https://twitter.com/janesmith",
+        label: "Twitter",
+        icon: <TwitterOutlined />,
+      },
+    ],
+    phone: [
+      {
+        number: "+1 987-654-3210",
+        icon: <PhoneOutlined />,
+      },
+    ],
+    objective: "Experienced project manager seeking new opportunities in the IT industry.",
+    qualifications: [
+      {
+        program: "Master of Business Administration",
+        stream: "Management",
+        school: "University of ABC",
+        year: "2016-2018",
+        cgpa: "3.9",
+      },
+      {
+        program: "Bachelor of Engineering",
+        stream: "Mechanical Engineering",
+        school: "DEF University",
+        year: "2012-2016",
+        cgpa: "3.6",
+      },
+    ],
+    skills: [
+      {
+        title: "Project Management",
+      },
+      {
+        title: "Leadership",
+      },
+      {
+        title: "Communication",
+      },
+      {
+        title: "Problem Solving",
+      },
+    ],
+  },
+  // Add more fake resume data objects here...
+];
+
   
   
 
 const ResumePage = () => {
   return (
-    <Resume resume={resumeData}/>
+    <>
+    {
+      resumeDataArray.map(resume => {
+        return <Resume key={nanoid()} resume={resume}/>
+      })
+    }
+    </>
   )
 }
 
