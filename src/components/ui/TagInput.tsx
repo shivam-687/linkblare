@@ -101,7 +101,7 @@ const TagInput = ({
           const tagElem = (
             <Tag
               key={tag}
-              closable={index !== 0}
+              closable
               style={{ userSelect: 'none' }}
               onClose={() => handleClose(tag)}
             >
@@ -140,7 +140,7 @@ const TagInput = ({
         />
       ) : (
         <Tag style={tagPlusStyle} onClick={showInput}>
-          <PlusOutlined /> New Tag
+          <PlusOutlined/> New Tag
         </Tag>
       )}
     </Space>

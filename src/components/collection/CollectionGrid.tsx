@@ -13,7 +13,7 @@ export type CollectionGridProps = {
 
 const CollectionGrid = ({
     loading,
-    collections = [],
+collections = [],
     onAnyCardUpdate
 }: CollectionGridProps) => {
 
