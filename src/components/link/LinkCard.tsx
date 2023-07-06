@@ -71,12 +71,13 @@ const LinkCard = ({
     <div className='max-w-xs w-full rounded-md overflow-hidden grid group grid-rows-2 aspect-square relative' style={{ backgroundColor: token.colorBgContainer }}>
       <div className='aspect-video overflow-hidden'>
         {
-          link?.type === 'PAGE' || link?.type === 'ARTICLE' && <LinkCardImage image={(link?.image && link?.image !== null) ? link?.image : undefined} />
+          (link?.type === 'PAGE'||link?.type === 'ARTICLE') && <LinkCardImage image={(link?.image && link?.image !== null) ? link?.image : undefined} />
         }
 
         {
           link?.type === 'VIDEO' && <Video url={link.url} />
         }
+        
       </div>
       <div className='p-3 pb-8 relative'>
         <div className="flex flex-col gap-1">
