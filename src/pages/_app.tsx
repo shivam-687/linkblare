@@ -16,6 +16,7 @@ import 'swiper/css/scrollbar';
 import LayoutSwitcher from "~/layouts/LayoutSwitcher";
 import ThemeProvider from "~/lib/theme/ThemeProvider";
 import { Router } from "next/router";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 Router.events.on('routeChangeStart', () => void NProgress.start()); 

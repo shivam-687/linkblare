@@ -8,7 +8,7 @@ const AppSkeleton = ({
     ...props
 }: SkeletonProps) => {
   return (
-    <><Skeleton  baseColor={baseColor} highlightColor={highlightColor} {...props} /></>
+    <><Skeleton baseColor={baseColor} highlightColor={highlightColor} {...props} /></>
   )
 }
 

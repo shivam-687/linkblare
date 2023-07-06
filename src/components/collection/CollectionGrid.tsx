@@ -18,7 +18,7 @@ const CollectionGrid = ({
 }: CollectionGridProps) => {
 
     if (loading) {
-        return <div className='grid justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5'>
+        return <div className='grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5'>
             {
                 Array(5).fill(null).map(() => {
                     return <CollectionCardSkeleton key={nanoid()} />
