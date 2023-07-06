@@ -57,10 +57,10 @@ const AppSidebar = () => {
     return (
         <>
             <Layout.Sider style={{ backgroundColor: colorBgContainer }} className='relative pb-20 overflow-hidden hidden md:block'>
-                <div className='flex w-full items-center justify-center py-2 '>
+                <div className='flex w-full items-center justify-center  h-16'>
                     <Link href={'/'}><Logo /></Link>
                 </div>
-                <div className="mt-5">
+                <div className="pt-5 ">
                 <SidebarContent/>
                 </div>
             </Layout.Sider>

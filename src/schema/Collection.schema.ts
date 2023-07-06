@@ -52,7 +52,8 @@ export const UserCollectionFeedSchema = z.object({
                                 .merge(WithSorting)
                                 .merge(WithSearch)
                                 .merge(z.object({
-                                    tags: z.array(z.number()).optional().default([])
+                                    tags: z.array(z.number()).optional().default([]),
+                                    
                                 }))
                                 
 

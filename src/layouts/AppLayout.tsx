@@ -38,7 +38,7 @@ const App = ({ children }: PropsWithChildren) => {
                     <div className='flex justify-between items-center w-full h-full p-2 md:hidden'>
                         <div className='w-max'><Button  icon={<MenuOutlined/>} onClick={() => setIsSidebarOpen(true)} /></div>
 
-                        <div className='flex w-full items-center justify-center'><Logo /></div>
+                        <div className='flex w-full items-center justify-center '><Logo type='text' /></div>
 
                         <div className='w-max'><Button icon={<SearchOutlined/>}/></div>
                     </div>

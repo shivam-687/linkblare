@@ -183,17 +183,14 @@ export const CollectionRouter = createTRPCRouter({
             }
         }
 
-        console.log({tagIds});
-        
-
-
+     
 
         const res = await ctx.prisma.collection.findMany({
             where: {
-                // title: search && {
-                //     contains: search,
-                //     mode: 'insensitive'
-                // },
+                title: search && {
+                    contains: search,
+                    mode: 'insensitive'
+                },
                 tags: tagIds && { some: { id: { in: tagIds } } }
             },
             take: currenctTake,
