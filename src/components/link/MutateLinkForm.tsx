@@ -1,12 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
-import { Button, Form, Input, InputNumber, Select, message } from 'antd'
+import { Avatar, Button, Form, Input, InputNumber, Select, message } from 'antd'
 import TagInput from '~/components/ui/TagInput'
 import { api } from '~/utils/api'
 import { type CreateLinkInput, type LinkOutput, type UpdateLinkInput } from '~/schema/Link.schema'
 import { LinkType } from '@prisma/client'
-import { normalizeUrl } from '~/utils/helpers'
+import { getDefaultFaviconUrl, getRootUrl, normalizeUrl } from '~/utils/helpers'
 import { TRPCClientError } from '@trpc/client'
+import { isUrl } from '~/utils/helpers'
+import { getLinkInfo } from '~/lib/scrapping/getLinkInfo'
+import { FileImageOutlined } from '@ant-design/icons'
 
 
 export type MutateLinkFormProps = {
@@ -38,6 +42,7 @@ const MutateLinkForm = forwardRef<HandleMutateLinkForm, MutateLinkFormProps>(({
 
 
   const [form] = Form.useForm<CreateLinkInput | UpdateLinkInput>();
+  const [faviconUrl, setFaviconUrl] = useState<string>()
   const [tags, setTags] = useState<string[]>();
   // MUTATIONS
   const updateMutation = api.link.update.useMutation();
@@ -53,13 +58,13 @@ const MutateLinkForm = forwardRef<HandleMutateLinkForm, MutateLinkFormProps>(({
         res = await createMutation.mutateAsync({ ...{ ...validatedData, tags } as CreateLinkInput })
       }
       res && onMutate?.(res);
-      void message.success(data ? 'Link Updated successfully!': 'Link created successfully!')
+      void message.success(data ? 'Link Updated successfully!' : 'Link created successfully!')
     } catch (error) {
       onError?.(error);
       if (error instanceof TRPCClientError) {
         void message.error(error.message)
       } else {
-        void message.error(data ? 'Link Updated Unsuccessfull!': 'Link created Unsuccessfull!')
+        void message.error(data ? 'Link Updated Unsuccessfull!' : 'Link created Unsuccessfull!')
       }
     }
   }
@@ -80,6 +85,20 @@ const MutateLinkForm = forwardRef<HandleMutateLinkForm, MutateLinkFormProps>(({
     })
   }
 
+  const norm = (value: string) => {
+    updateFaviconValue(value);
+    return normalizeUrl(value);
+  }
+
+  const updateFaviconValue = (url: string) => {
+    if(form.getFieldError('url').length > 0) return;
+    const favUrl = getDefaultFaviconUrl(
+      getRootUrl(url), 
+      {});
+    form.setFieldValue('favicon', favUrl);
+    setFaviconUrl(favUrl);
+  }
+
 
   useImperativeHandle(ref, () => {
     return {
@@ -90,6 +109,8 @@ const MutateLinkForm = forwardRef<HandleMutateLinkForm, MutateLinkFormProps>(({
       }
     }
   })
+
+
 
 
   useEffect(() => {
@@ -104,8 +125,6 @@ const MutateLinkForm = forwardRef<HandleMutateLinkForm, MutateLinkFormProps>(({
   }, [updateMutation.isLoading, createMutation.isLoading])
 
 
-
-
   return (
     <div>
       <Form
@@ -117,8 +136,11 @@ const MutateLinkForm = forwardRef<HandleMutateLinkForm, MutateLinkFormProps>(({
             <InputNumber />
           </Form.Item>
         }
-        <Form.Item normalize={normalizeUrl} name='url' rules={[{ required: true, message: 'Url is required' }, { type: 'url', message: 'Invalid url' }]}>
-          <Input placeholder='Link URL' />
+        <Form.Item normalize={norm} name='url' rules={[{ required: true, message: 'Url is required' }, { type: 'url', message: 'Invalid url' }]}>
+          <Input
+            placeholder='Link URL'
+
+          />
         </Form.Item>
         <Form.Item name='image'>
           <Input placeholder='Image Url' />
@@ -129,9 +151,17 @@ const MutateLinkForm = forwardRef<HandleMutateLinkForm, MutateLinkFormProps>(({
         <Form.Item name="desc">
           <Input.TextArea placeholder='Link Description' />
         </Form.Item>
-        <Form.Item name='favicon'>
-          <Input placeholder='Favicon Url' />
-        </Form.Item>
+        <div className="flex items-start gap-3">
+          {/* <p>{form.getFieldValue('favicon')}</p> */}
+          <div className="flex-grow-0">
+            <div className="w-10 h-10 rounded-lg bg-center bg-contain bg-no-repeat bg-slate-400" style={{backgroundImage: `url(${faviconUrl||''})`}}></div>
+            </div>
+          <div className="flex-grow">
+            <Form.Item name='favicon' >
+              <Input placeholder='Favicon Url' />
+            </Form.Item>
+          </div>
+        </div>
         <Form.Item name="type" initialValue={LinkType.PAGE}>
           <Select >
             <Select.Option value={LinkType.ARTICLE}>Article</Select.Option>

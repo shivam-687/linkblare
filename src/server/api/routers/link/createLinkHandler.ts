@@ -25,7 +25,6 @@ const createLinkHandler = async (input: z.infer<typeof CreateLinkInputSchema>, {
     if (existingLink) {
         throw new TRPCError({ message: 'Link already exists', code: 'BAD_REQUEST' });
     }
-
     try {
         // Create a new link
         const createdLink = await prisma.link.create({
