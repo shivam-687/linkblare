@@ -132,3 +132,13 @@ model Save {
     collectionId Int
     userId       String
 }
+
+model ViewItem {
+    id  Int @id @default(autoincrement())
+    title String 
+    desc    String? @db.Text
+    content Json
+    createdAtd  DateTime @default(now())
+    updatedAt   DateTime @updatedAt()
+    
+}

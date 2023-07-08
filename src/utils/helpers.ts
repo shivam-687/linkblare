@@ -81,3 +81,13 @@ export function numFormat(num: number|bigint) {
     maximumFractionDigits: 1
   }).format(num)
 }
+
+
+export function getDefaultFaviconUrl (url: string, {size='64'}: {size?: '16'|'32'|'64'}) {
+  return `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}&size=${size}`
+}
+
+export function getRootUrl(url: string): string {
+  const urlObj = new URL(url);
+  return urlObj.protocol + "//" + urlObj.hostname;
+}

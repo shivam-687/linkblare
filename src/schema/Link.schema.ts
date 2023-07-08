@@ -19,6 +19,10 @@ export const CreateLinkInputSchema = z.object({
     collectionId: z.number()
 })
 
+export const CreateManyLinkInputSchema = z.object({
+    links: z.array(CreateLinkInputSchema).default([])
+})
+
 export type CreateLinkInput = z.TypeOf<typeof CreateLinkInputSchema>;
 
 export const UpdateLinkSchema = z.object({
