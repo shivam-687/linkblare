@@ -8,7 +8,7 @@ import { getLinkInclude } from './linkInclude';
 import { ServerErrorHandler } from '../../error-handler/ServerErrorHandler';
 
 type CreateOption = {
-    prisma: PrismaClient<Prisma.PrismaClientOptions, never, Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined>,
+    prisma: PrismaClient,
 }
 
 const createLinkHandler = async (input: z.infer<typeof CreateLinkInputSchema>, { prisma }: CreateOption) => {

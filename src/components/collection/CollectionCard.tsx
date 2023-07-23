@@ -25,7 +25,9 @@ const CollectionCard = ({
   const { token } = theme.useToken()
   const { data: Session } = useSession();
   const [isSaved, setIsSaved] = useState<boolean>(false)
-  const { data: collectionData, isLoading: isSaving, mutateAsync: save } = api.collection.save.useMutation()
+  const { data: collectionData, isLoading: isSaving, mutateAsync: save } = api.collection.save.useMutation();
+  const collectionItemsCtx = api.useContext().collection.infinitSavedCollection;
+  const savedCollectionContext = api.useContext().save.infinitSavedCollection;
   const modalRef = useRef<HandleCollectionInfoModal>(null)
 
 
@@ -51,6 +53,7 @@ const CollectionCard = ({
         onUpdate?.();
         void message.info((s ? 'Saved' : 'Unsaved'))
       }
+      void savedCollectionContext.invalidate();
     } catch (error) {
 
     }
@@ -63,8 +66,8 @@ const CollectionCard = ({
   }, [])
 
   return (
-    <div className='w-full rounded-xl group  transition-all duration-300 hover:shadow-lg relative hover:shadow-black/40 overflow-hidden' style={{ borderColor: token.colorBorder, backgroundColor: token.colorBgContainer }}>
-      <div className='aspect-video rounded-xl bg-cover bg-no-repeat bg-center overflow-hidden cursor-pointer' style={{ backgroundImage: `url(${collection.image || ''})`, backgroundColor: token.colorBgContainer }} onClick={() => void modalRef.current?.show()}>
+    <div className='w-full group rounded-xl group  transition-all duration-300 hover:shadow-lg relative hover:shadow-black/40 overflow-hidden' style={{ borderColor: token.colorBorder, backgroundColor: token.colorBgContainer }}>
+      <div className='aspect-video rounded-xl bg-cover bg-no-repeat relative -translate-y-1 group-hover:translate-y-0 bg-center overflow-hidden cursor-pointer shadow-md shadow-black/30 group-hover:shadow-none transition-all duration-300 ' style={{ backgroundImage: `url(${collection.image || ''})`, backgroundColor: token.colorBgContainer }} onClick={() => void modalRef.current?.show()}>
         <div className='w-full h-full grid place-content-center ' style={{}}><Box className='' /></div>
       </div>
 
