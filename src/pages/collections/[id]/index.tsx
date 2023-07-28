@@ -29,7 +29,7 @@ export async function getServerSideProps(
       notFound: true
     }
   }
-  await helpers.link.list.prefetch({ collectionId: parseInt(id) });
+  // await helpers.link.list.prefetch({ collectionId: parseInt(id) });
 
   return {
     props: {
