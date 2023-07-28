@@ -1,37 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { type GetServerSidePropsContext, type NextPage } from "next";
+import { type NextPage } from "next";
 import Head from "next/head";
 import CollectionGrid from "~/components/collection/CollectionGrid";
-import { createProxySSGHelpers } from "@trpc/react-query/ssg";
-import { createInnerTRPCContext } from "~/server/api/trpc";
-import { getServerAuthSession } from '~/server/auth';
-import { appRouter } from "~/server/api/root";
-import SuperJSON from "superjson";
 import { api } from "~/utils/api";
 import { useState } from "react";
 import { type CollectionOutput, type CollectionSortType } from "~/schema/Collection.schema";
 import { Button, Segmented } from "antd";
 import { type SegmentedValue } from "antd/es/segmented";
 
-
-
-export async function getServerSideProps(
-  context: GetServerSidePropsContext
-) {
-  const helpers = createProxySSGHelpers({
-    ctx: createInnerTRPCContext({ session: await getServerAuthSession({ ...context }) }),
-    router: appRouter,
-    transformer: SuperJSON,
-  });
-
-  return {
-    props: {
-      trpcState: helpers.dehydrate(),
-    }
-  }
-}
 
 const Home: NextPage = () => {
   const [sortData, setSortData] = useState<CollectionSortType | undefined>()
@@ -57,7 +35,6 @@ const Home: NextPage = () => {
         break;
 
     }
-
   }
 
   return (

@@ -23,16 +23,18 @@ const SidebarAuthMenu = () => {
 
     const items: MenuProps['items'] = [
         {
-            label: <Link href={'/admin'}><DashboardOutlined/> <span>Admin</span></Link>,
-            key: '1',
-        },
-        {
             label: <Link href={'/setting'}><SettingOutlined/> <span>Account/settings</span></Link>,
             key: '2',
         },
         {
             label: <span onClick={() => void signOut()}><LogoutOutlined/> <span>Logout</span></span>,
             key: '0',
+        },
+    ];
+    const adminItems: MenuProps['items'] = [
+        {
+            label: <Link href={'/admin'}><DashboardOutlined/> <span>Admin</span></Link>,
+            key: '1',
         },
     ];
 
@@ -46,6 +48,10 @@ const SidebarAuthMenu = () => {
         return <div className='py-1 border-t flex justify-center'>
             <Button type="dashed" onClick={() => void signIn()} title="sign-in button" className='' >Login</Button>
         </div>
+    }
+
+    if(sessionData?.user.role === 'ADMIN'){
+        items.push(...adminItems);
     }
     return (
         <div className='p-1 border-t z-50'>

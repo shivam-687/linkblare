@@ -1,4 +1,5 @@
 import React from 'react'
+import ImageUploadButton from '~/components/ImageUploadButton'
 import { useCollectionData } from '~/lib/hooks/useCollectionData'
 
 const AdminPage = () => {
@@ -6,6 +7,7 @@ const AdminPage = () => {
   return (
     <>
     <h1>Admin Page</h1>
+    <ImageUploadButton/>
     </>
   )
 }

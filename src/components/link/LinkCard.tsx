@@ -69,7 +69,7 @@ const LinkCard = ({
   const {data: Session} = useSession()
   return (
     <div className='max-w-xs w-full rounded-md overflow-hidden grid group grid-rows-2 aspect-square relative' style={{ backgroundColor: token.colorBgContainer }}>
-      <div className='aspect-video overflow-hidden'>
+      <div className='aspect-video overflow-hidden relative'>
         {
           (link?.type === 'PAGE'||link?.type === 'ARTICLE') && <LinkCardImage image={(link?.image && link?.image !== null) ? link?.image : undefined} />
         }

@@ -6,6 +6,9 @@ await import("./src/env.mjs");
 
 /** @type {import("next").NextConfig} */
 const config = {
+  experimental: {
+    esmExternals: false, // THIS IS THE FLAG THAT MATTERS
+  },
   reactStrictMode: true,
   images: {
     domains: ['res.cloudinary.com']

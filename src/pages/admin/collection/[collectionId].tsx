@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { type GetServerSidePropsContext, type InferGetServerSidePropsType } from 'next'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { createInnerTRPCContext } from '~/server/api/trpc';
 import {appRouter} from '../../../server/api/root'
 import SuperJSON from 'superjson';
@@ -28,7 +28,7 @@ export async function getServerSideProps(
     notFound: true
   };
 
-  await helpers.link.list.prefetch({collectionId: parseInt(id)});
+  // await helpers.link.list.prefetch({collectionId: parseInt(id)});
 
   return {
     props: {
@@ -46,9 +46,6 @@ const SingleCollectionPage = (
   const {data: collection, isLoading: collectionLoading} = api.collection.get.useQuery({ id: parseInt(id)}, {refetchOnWindowFocus:false})
   const {data: linksData, isLoading, refetch} = api.link.list.useQuery({collectionId: parseInt(id), pagination}, {refetchOnWindowFocus:false})
 
-  useEffect(() => {
-    void refetch()
-  }, [])
   return (
     <>
     <div className='flex items-center justify-between my-10'>
